@@ -31,7 +31,7 @@ jobs:
 
     needs: [laravel-tests]
 
-    runs: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: "SSH TO BWA Deploy Server"
