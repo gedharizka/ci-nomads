@@ -34,13 +34,13 @@ jobs:
     runs: ubuntu-latest
 
     steps:
-    -name: "SSH TO BWA Deploy Server"
-     uses: appdeploy/ssh-action@master
-     with:
-      host: ${{secret.HOST}}
-      username: ${{secret.HOST}}
-      password: ${{secret.HOST}}
-      port: ${{secret.HOST}}
-      script: |
+    - name: "SSH TO BWA Deploy Server"
+      uses: appdeploy/ssh-action@master
+      with:
+       host: ${{secret.HOST}}
+       username: ${{secret.HOST}}
+       password: ${{secret.HOST}}
+       port: ${{secret.HOST}}
+       script: |
         cd /var/www/ci-nomads
         ls -lah
