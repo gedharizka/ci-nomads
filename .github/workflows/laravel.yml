@@ -35,7 +35,7 @@ jobs:
 
     steps:
     - name: "SSH TO Deploy Server"
-      uses: appdeploy/ssh-action@master
+      uses: appleboy/ssh-action@master
       with:
        host: ${{secrets.HOST}}
        username: ${{secrets.USERNAME}}
