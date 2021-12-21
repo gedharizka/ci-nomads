@@ -37,10 +37,10 @@ jobs:
     - name: "SSH TO BWA Deploy Server"
       uses: appdeploy/ssh-action@master
       with:
-       host: ${{secret.HOST}}
-       username: ${{secret.HOST}}
-       password: ${{secret.HOST}}
-       port: ${{secret.HOST}}
+       host: ${{secrets.HOST}}
+       username: ${{secrets.USERNAME}}
+       password: ${{secrets.PASSWORD}}
+       port: ${{secrets.PORT}}
        script: |
         cd /var/www/ci-nomads
         ls -lah
