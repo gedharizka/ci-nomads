@@ -26,15 +26,15 @@ NOMADS
   <div class="container">
     <section class="section-stats row justify-content-center" id="stats">
       <div class="col-3 col-md-2 stats-detail">
-        <h2>25K</h2>
+        <h2>27K</h2>
         <p>Members</p>
       </div>
       <div class="col-3 col-md-2 stats-detail">
-        <h2>24</h2>
+        <h2>30</h2>
         <p>Countries</p>
       </div>
       <div class="col-3 col-md-2 stats-detail">
-        <h2>10K</h2>
+        <h2>20K</h2>
         <p>Hotel</p>
       </div>
       <div class="col-3 col-md-2 stats-detail">

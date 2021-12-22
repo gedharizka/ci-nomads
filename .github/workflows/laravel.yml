@@ -43,3 +43,7 @@ jobs:
        port: ${{secrets.PORT}}
        script: |
         cd /var/www/ci-nomads
+        git pull origin master
+        composer update -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        php artisan migrate
+
