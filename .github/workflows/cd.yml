@@ -1,0 +1,28 @@
+name: Continue Development
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  tests:
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: "SSH TO Deploy Server"
+      uses: appleboy/ssh-action@master
+      with:
+       host: ${{secrets.HOST}}
+       username: ${{secrets.USERNAME}}
+       key: ${{secrets.PASSWORD}}
+       port: ${{secrets.PORT}}
+       script: |
+        cd /var/www/ci-nomads
+        git pull origin master
+        php artisan config:cache
+
