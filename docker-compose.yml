@@ -1,0 +1,83 @@
+version: "3.8"
+
+services:
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # PHP-FPM application
+  # ─────────────────────────────────────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+    image: ci-nomads-app:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      DB_HOST: db
+      DB_PORT: "3306"
+      # RUN_MIGRATIONS: "true"   # Uncomment to auto-migrate on startup
+    volumes:
+      - storage_data:/var/www/html/storage/app
+      - logs_data:/var/www/html/storage/logs
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app_network
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Nginx web server — built from same Dockerfile with compiled assets baked in
+  # ─────────────────────────────────────────────────────────────────────────
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: nginx
+    image: ci-nomads-nginx:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - app_network
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # MySQL 8.0 database
+  # ─────────────────────────────────────────────────────────────────────────
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - app_network
+
+# ─────────────────────────────────────────────────────────────────────────
+# Named volumes — data persisted across container restarts
+# ─────────────────────────────────────────────────────────────────────────
+volumes:
+  db_data:
+  storage_data:
+  logs_data:
+
+# ─────────────────────────────────────────────────────────────────────────
+# Internal bridge network
+# ─────────────────────────────────────────────────────────────────────────
+networks:
+  app_network:
+    driver: bridge

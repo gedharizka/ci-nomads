@@ -1,0 +1,46 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# PHP dependencies (installed during build)
+vendor/
+
+# Node dependencies (installed during build)
+node_modules/
+
+# Environment files — never bake secrets into the image
+.env
+.env.*
+!.env.example
+
+# Local dev / IDE files
+.idea/
+.vscode/
+*.code-workspace
+.cursor/
+
+# Test files
+tests/
+phpunit.xml
+
+# Docker compose files (not needed inside the image)
+docker-compose*.yml
+
+# Storage contents (mounted as volumes at runtime)
+storage/logs/*.log
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+
+# Build artifacts
+public/hot
+public/storage
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# CI / scripts not needed in image
+.github/
+.styleci.yml
